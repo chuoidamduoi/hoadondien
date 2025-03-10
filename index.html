@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hóa Đơn Tiền Điện</title>
+    <!-- Nhúng file CSS của bạn và Foundation CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Điện LỰC VŨ SINH</h1>
+    </header>
+
+    <div id="invoice">
+        <h2 class="title">Hóa đơn tiền điện</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tháng</th>
+                    <th>Mã Hộ</th>
+                    <th>Họ tên</th>
+                    <th>Số Cũ</th>
+                    <th>Số Mới</th>
+                    <th>Điện Tiêu Thụ</th>
+                    <th>Giá tiền/kwh</th>
+                    <th>Thành Tiền</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="bill-list">
+                <!-- Dữ liệu hóa đơn sẽ được thêm vào đây -->
+            </tbody>
+        </table>
+    </div>
+    <!-- loading -->
+    <div class="loading">
+        <p class="txt-loading">Đang tải...</p>
+
+    </div>
+
+    <!-- Nhúng các file script bên ngoài và script chính -->
+    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</body>
+
+</html>
