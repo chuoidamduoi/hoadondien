@@ -42,6 +42,9 @@ document.getElementById("capture-btn").addEventListener("click", function () {
     });
 });
 
+
+
+
 function shareZalo(imageUrl) {
     let url = encodeURIComponent(imageUrl);
     let text = encodeURIComponent("Hóa đơn tiền điện");
