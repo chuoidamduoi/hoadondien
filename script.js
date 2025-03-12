@@ -10,6 +10,53 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
+
+document.getElementById("capture-btn").addEventListener("click", function () {
+    html2canvas(document.body).then(canvas => {
+        canvas.toBlob(blob => {
+            let formData = new FormData();
+            formData.append("image", blob);
+
+            // 🔹 UPLOAD ẢNH LÊN IMGUR
+            fetch("https://api.imgur.com/3/image", {
+                method: "POST",
+                headers: {
+                    Authorization: "Client-ID 59ea82e7a77f9d0" //  Thay bằng Client ID của bạn
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let imageUrl = data.data.link; // Nhận link ảnh từ Imgur
+                    document.getElementById("screenshot").src = imageUrl;
+                    // document.getElementById("screenshot").style.display = "block";
+                    
+                    // 🔹 Chia sẻ qua Zalo với link ảnh hợp lệ
+                    shareZalo(imageUrl);
+                }
+            })
+            .catch(error => console.error("Lỗi upload ảnh:", error));
+        }, "image/png");
+    });
+});
+
+function shareZalo(imageUrl) {
+    let url = encodeURIComponent(imageUrl);
+    let text = encodeURIComponent("Hóa đơn tiền điện");
+
+    var userAgent = navigator.userAgent || navigator.vendor;
+    if (/android/i.test(userAgent)) {
+        window.location.href = `intent://share?url=${url}#Intent;scheme=zalo;package=com.zing.zalo;end;`;
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = `zalo://share?url=${url}`;
+    } else {
+        // Máy tính mở trang web Zalo
+        window.open(`https://zalo.me/share?url=${url}&text=${text}`, "_blank");
+    }
+}
+
 function getBillCodeFromURL() {
     const hash = window.location.hash; // Lấy toàn bộ hash từ URL
     const parts = hash.split("/"); // Tách thành mảng dựa trên dấu "/"
@@ -77,7 +124,7 @@ async function loadInvoiceData(billCode) {
         <td data-label="Số điện sử dụng"><span>${formatNumber(item.CONSUMPTION)}</span></td>
         <td data-label="Giá tiền/kwh"><span>${formatNumber(item.KWH_AMOUNT)}</span></td>
         <td data-label="Số tiền phải đóng" class="highlight"><span>${formatNumber(item.AMOUNT)}</span></td>
-        <td class="txt-highlight">${item.ISPAYMENT=='Y'?'Đã thanh toán':'Chưa thanh toán'}</td>
+        <td class="txt-highlight">${item.ISPAYMENT == 'Y' ? 'Đã thanh toán' : 'Chưa thanh toán'}</td>
                     `;
         tbody.appendChild(tr);
     });
